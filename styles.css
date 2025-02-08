@@ -1,37 +1,104 @@
+/* Сброс базовых отступов и настройка box-sizing */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* Глобальные переменные для оформления */
 :root {
-  --background-color: #F0F4F8;
+  --background-color: #F0F4F8;    /* Цвет фона по умолчанию */
+  --color-text: #333;             /* Основной цвет текста */
+  --color-running: #FF9AA2;       /* Фон для фазы "бег" */
+  --color-walking: #A8DADC;       /* Фон для фазы "ходьба" */
+  --font-family: system-ui, sans-serif;
+  /* Увеличенные размеры шрифта для удобства на мобильном */
+  --font-size-base: 24px;
+  --font-size-title: 28px;
+  --font-size-large: 50px;
+  --spacing: 30px;                /* Увеличенный отступ */
+  --radius: 10px;                 /* Скругления углов */
 }
 
+/* Оформление body */
 body {
-  font-family: system-ui, sans-serif;
-  font-size: 100px;
-  line-height: 1.5;
+  font-family: var(--font-family);
   background-color: var(--background-color);
+  color: var(--color-text);
   display: flex;
-  flex-direction: column;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
+/* Основной контейнер */
+.container {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing);
+}
+
+/* Заголовок — номер тренировки */
+header h1 {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+  margin-bottom: var(--spacing);
+  color: #222;
+}
+
+/* Секция таймера и счётчика итераций */
+.timer-section {
+  margin-bottom: var(--spacing);
+}
+
+/* Крупный таймер */
+#timer {
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Счётчик итераций (x / y) */
+#iteration {
+  font-size: var(--font-size-base);
+  color: #555;
+}
+
+/* Кнопка старта/рестарта */
 button {
-  font-size: 50px;
+  font-size: var(--font-size-base);
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px 32px;  /* Увеличенные отступы для удобства нажатия */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+/* При наведении/таче — чуть темнее */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Дополнительные стили для классов состояний */
 .app-idle {
-  background-color: #F0F4F8;
+  background-color: #F0F4F8; /* По умолчанию */
 }
 
+/* Когда идёт фаза бега — фон страницы */
 .mode-running {
-  --background-color: #FF9AA2;
+  --background-color: var(--color-running);
 }
 
+/* Когда идёт фаза ходьбы — фон страницы */
 .mode-walking {
-  --background-color: #A8DADC;
+  --background-color: var(--color-walking);
 }
