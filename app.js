@@ -99,7 +99,7 @@ function setScreenState(state) {
 
 /**
  * Запускает таймер обратного отсчёта.
- * Теперь функция принимает время в минутах (в том числе дробное значение)
+ * Функция принимает время в минутах (в том числе дробное значение)
  * и переводит его в секунды.
  * @param {number} minutes — время в минутах (например, 2.5 означает 2 минуты 30 секунд)
  * @param {function} onComplete — функция-колбэк, вызываемая по окончании отсчёта
@@ -187,8 +187,8 @@ function nextIteration() {
 
 /**
  * Запускает выполнение текущей сессии.
- * Сначала выполняется фаза "бега", затем, если предусмотрено, фаза "ходьбы".
- * В начале каждой фазы выставляется соответствующее состояние экрана.
+ * Теперь в каждой сессии сначала выполняется фаза "ходьбы", затем (если задана)
+ * фаза "бега". В начале каждой фазы выставляется соответствующее состояние экрана.
  */
 function runSession() {
   if (currentSessionIndex >= sessions.length) {
@@ -201,15 +201,37 @@ function runSession() {
   updateIterationInHTML(session.repeats);
   console.log(`Сессия ${session.id}, итерация ${currentIterationCount + 1}`);
 
-  // Фаза "бега"
-  setScreenState("running");
-  startCountdown(session.runMinutes, () => {
-    console.log("Фаза бега завершена");
-    if (session.walkMinutes > 0) {
-      // Фаза "ходьбы"
-      setScreenState("walking");
-      startCountdown(session.walkMinutes, () => {
-        console.log("Фаза ходьбы завершена");
+  // Запускаем сначала фазу "ходьбы", если она задана
+  if (session.walkMinutes > 0) {
+    setScreenState("walking");
+    startCountdown(session.walkMinutes, () => {
+      console.log("Фаза ходьбы завершена");
+      // Затем запускаем фазу "бега", если она задана
+      if (session.runMinutes > 0) {
+        setScreenState("running");
+        startCountdown(session.runMinutes, () => {
+          console.log("Фаза бега завершена");
+          if (nextIteration()) {
+            setScreenState("finished");
+          } else {
+            runSession();
+          }
+        });
+      } else {
+        // Если фаза бега отсутствует
+        if (nextIteration()) {
+          setScreenState("finished");
+        } else {
+          runSession();
+        }
+      }
+    });
+  } else {
+    // Если фаза ходьбы отсутствует, сразу запускаем фазу "бега"
+    if (session.runMinutes > 0) {
+      setScreenState("running");
+      startCountdown(session.runMinutes, () => {
+        console.log("Фаза бега завершена");
         if (nextIteration()) {
           setScreenState("finished");
         } else {
@@ -217,13 +239,14 @@ function runSession() {
         }
       });
     } else {
+      // Если ни ходьбы, ни бега не задано, переходим к следующей итерации
       if (nextIteration()) {
         setScreenState("finished");
       } else {
         runSession();
       }
     }
-  });
+  }
 }
 
 /**
