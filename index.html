@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8">
-    <title>Я побежал</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Я побежал</title>
+  <!-- Подключаем стили -->
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<main class="container">
+  <!-- Шапка с номером тренировки -->
+  <header>
+    <h1 id="sessionNumber"></h1>
+  </header>
 
-  <!-- Элемент для отображения номера тренировки -->
-  <div id="sessionNumber"></div>
+  <!-- Секция таймера и счётчика итераций -->
+  <section class="timer-section">
+    <div id="timer">00:00</div>
+    <div id="iteration">0/0</div>
+  </section>
 
-  <!-- Элемент для таймера обратного отсчёта -->
-  <div id="timer">00:00</div>
-
-  <!-- Элемент для отображения итераций (например, 1/5) -->
-  <div id="iteration">0/0</div>
-
-  <!-- Кнопка для начала тренировки -->
+  <!-- Кнопка для начала/перезапуска тренировки -->
   <button id="startButton">начать</button>
+</main>
 
-    <script defer src="./app.js" type="module"></script>
-  </body>
+<!-- Скрипт приложения -->
+<script defer src="./app.js" type="module"></script>
+</body>
 </html>
