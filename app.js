@@ -4,12 +4,44 @@ import { sessions } from "./sessions.js";
 let currentSessionIndex = 0;
 let currentIterationCount = 0;
 
+// Переменная для Wake Lock
+let wakeLock = null;
+
+/**
+ * Запрашивает блокировку экрана, чтобы предотвратить его гашение.
+ */
+async function requestWakeLock() {
+  try {
+    // Если API поддерживается, запрашиваем блокировку экрана
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => {
+        console.log('Wake Lock был освобождён');
+      });
+      console.log('Wake Lock активирован');
+    }
+  } catch (err) {
+    console.error(`Ошибка запроса Wake Lock: ${err.name}, ${err.message}`);
+  }
+}
+
+/**
+ * Снимает блокировку экрана, если она активна.
+ */
+function releaseWakeLock() {
+  if (wakeLock !== null) {
+    wakeLock.release();
+    wakeLock = null;
+    console.log('Wake Lock снят');
+  }
+}
+
 /**
  * Устанавливает состояние экрана приложения.
  * Возможные состояния: "start", "running", "walking", "finished"
  * — "start": отображается кнопка «начать тренировку» и текст "Тренировка номер X"
- * — "running": фаза бега; на body вешается класс mode-running
- * — "walking": фаза ходьбы; на body вешается класс mode-walking
+ * — "running": фаза бега; на body вешается класс mode-running, включается Wake Lock
+ * — "walking": фаза ходьбы; на body вешается класс mode-walking, включается Wake Lock
  * — "finished": тренировка завершена, показывается сообщение и кнопка «начать новую тренировку»
  */
 function setScreenState(state) {
@@ -22,6 +54,9 @@ function setScreenState(state) {
   document.body.classList.remove("mode-running", "mode-walking");
 
   if (state === "start") {
+    // На экране старта снимаем Wake Lock
+    releaseWakeLock();
+
     if (startButton) {
       startButton.style.display = "block";
       startButton.textContent = "начать тренировку";
@@ -31,7 +66,6 @@ function setScreenState(state) {
 
     // Показываем информацию о номере текущей тренировки
     if (sessionNumberElement) {
-      // Если текущая сессия определена, берём её id, иначе по умолчанию 1
       let sessionNum = sessions[currentSessionIndex] ? sessions[currentSessionIndex].id : 1;
       sessionNumberElement.textContent = `Тренировка номер ${sessionNum}`;
       sessionNumberElement.style.display = "block";
@@ -45,16 +79,19 @@ function setScreenState(state) {
     if (state === "running") {
       if (startButton) startButton.style.display = "none";
       document.body.classList.add("mode-running");
+      requestWakeLock();
     } else if (state === "walking") {
       if (startButton) startButton.style.display = "none";
       document.body.classList.add("mode-walking");
+      requestWakeLock();
     } else if (state === "finished") {
+      // На экране завершения можно снять блокировку
+      releaseWakeLock();
       if (startButton) {
         startButton.style.display = "block";
         startButton.textContent = "начать новую тренировку";
       }
       if (timerElement) timerElement.textContent = "тренировка завершена";
-      // Удаляем классы режима
       document.body.classList.remove("mode-running", "mode-walking");
     }
   }
@@ -62,12 +99,13 @@ function setScreenState(state) {
 
 /**
  * Запускает таймер обратного отсчёта.
- * Для тестирования вместо минут используется значение в секундах.
- * @param {number} seconds — время в секундах (например, 2.5 означает 2 секунды)
+ * Теперь функция принимает время в минутах (в том числе дробное значение)
+ * и переводит его в секунды.
+ * @param {number} minutes — время в минутах (например, 2.5 означает 2 минуты 30 секунд)
  * @param {function} onComplete — функция-колбэк, вызываемая по окончании отсчёта
  */
-function startCountdown(seconds, onComplete) {
-  let totalSeconds = Math.floor(seconds);
+function startCountdown(minutes, onComplete) {
+  let totalSeconds = Math.floor(minutes * 60);
   updateTimeInHTML(totalSeconds);
 
   const intervalId = setInterval(() => {
