@@ -3,8 +3,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 /* Глобальные переменные для оформления */
@@ -13,24 +11,25 @@
   --color-text: #333;             /* Основной цвет текста */
   --color-running: #FF9AA2;       /* Фон для фазы "бег" */
   --color-walking: #A8DADC;       /* Фон для фазы "ходьба" */
-  --font-family: system-ui, sans-serif;
   /* Увеличенные размеры шрифта для удобства на мобильном */
   --font-size-base: 24px;
   --font-size-title: 28px;
   --font-size-large: 50px;
   --spacing: 30px;                /* Увеличенный отступ */
-  --radius: 10px;                 /* Скругления углов */
+  --radius: 8px;                 /* Скругления углов */
 }
 
 /* Оформление body */
 body {
-  font-family: var(--font-family);
+  font-family: system-ui, sans-serif;
   background-color: var(--background-color);
   color: var(--color-text);
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
 /* Основной контейнер */

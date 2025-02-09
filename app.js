@@ -48,7 +48,7 @@ function setScreenState(state) {
   const startButton = document.getElementById("startButton");
   const timerElement = document.getElementById("timer");
   const iterationElement = document.getElementById("iteration");
-  const sessionNumberElement = document.getElementById("sessionNumber");
+  const sessionNumberElement = document.getElementById("session-number");
 
   // Сбрасываем классы режима
   document.body.classList.remove("mode-running", "mode-walking");

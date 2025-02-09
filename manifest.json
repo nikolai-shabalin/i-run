@@ -1,0 +1,38 @@
+{
+  "name": "Я побежал",
+  "short_name": "ЯПобежал",
+  "description": "Приложение «Я побежал» создано для активных людей, которые хотят легко и удобно организовывать свои тренировки. Оно помогает чередовать режимы ходьбы и бега, отслеживать время каждой фазы и мотивирует достигать спортивных целей.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#F0F4F8",
+  "theme_color": "#007BFF",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Desktop view",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "640x360",
+      "type": "image/png",
+      "label": "Mobile view"
+    }
+  ]
+}

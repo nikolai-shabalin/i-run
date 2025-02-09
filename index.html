@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>Я побежал</title>
-  <!-- Подключаем стили -->
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-<body>
-<main class="container">
-  <!-- Шапка с номером тренировки -->
-  <header>
-    <h1 id="sessionNumber"></h1>
-  </header>
+  <head>
+    <meta charset="UTF-8">
+    <title>Я побежал</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+  </head>
+  <body>
+  <main class="container">
+    <span id="session-number"></span>
 
-  <!-- Секция таймера и счётчика итераций -->
-  <section class="timer-section">
-    <div id="timer">00:00</div>
-    <div id="iteration">0/0</div>
-  </section>
+    <!-- Секция таймера и счётчика итераций -->
+    <section class="timer-section">
+      <div id="timer">00:00</div>
+      <div id="iteration">0/0</div>
+    </section>
 
-  <!-- Кнопка для начала/перезапуска тренировки -->
-  <button id="startButton">начать</button>
-</main>
+    <!-- Кнопка для начала/перезапуска тренировки -->
+    <button id="startButton">начать</button>
+  </main>
 
-<!-- Скрипт приложения -->
-<script defer src="./app.js" type="module"></script>
-</body>
+  <!-- Скрипт приложения -->
+  <script defer src="./app.js" type="module"></script>
+  </body>
 </html>
