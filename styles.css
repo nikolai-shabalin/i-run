@@ -101,3 +101,18 @@ button:hover {
 .mode-walking {
   --background-color: var(--color-walking);
 }
+
+
+.session-changer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  input {
+    border-radius: 8px;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    line-height: 1.5;
+    width: 6ch;
+  }
+}

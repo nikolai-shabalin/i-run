@@ -1,4 +1,5 @@
 import { sessions } from "./sessions.js";
+import {initSessionChanger} from './session-changer.js';
 
 // Глобальные переменные для отслеживания текущей сессии и итерации
 let currentSessionIndex = 0;
@@ -280,3 +281,5 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.addEventListener("click", startTraining);
   }
 });
+
+initSessionChanger();
